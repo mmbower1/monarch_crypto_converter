@@ -31,7 +31,7 @@ function calculate() {
       rate.innerText = `1 ${currencyOne} = ${moneyRate} ${currencyTwo}`;
       amountEl_two.value = (amountEl_one.value * moneyRate).toFixed(2);
     })
-    // fetchCrypto();
+    fetchCrypto();
 }
 
 // fetch cryptocurrency rates
