@@ -10,13 +10,12 @@ currencyEl_one.addEventListener('change', calculate);
 amountEl_one.addEventListener('input', calculate);
 currencyEl_two.addEventListener('change', calculate);
 amountEl_two.addEventListener('input', calculate);
-swap.addEventListener('click', () => {
-  const temp = currencyEl_one.value;
-  currencyEl_one.value = currencyEl_two.value;
-  currencyEl_two.value = temp;
-  calculate();
-  // calculateCrypto();
-})
+// swap.addEventListener('click', () => {
+//   const temp = currencyEl_one.value;
+//   currencyEl_one.value = currencyEl_two.value;
+//   currencyEl_two.value = temp;
+//   calculate();
+// });
 
 // fetch exchange rates and update DOM
 function calculate() {
@@ -28,9 +27,11 @@ function calculate() {
       console.log('fiat data: ' + JSON.stringify(data));
       const moneyRate = data.rates[currencyOne];
       console.log('fiat moneyRate: ', moneyRate);
-      rate.innerText = `1 ${currencyOne} = ${moneyRate} ${currencyTwo}`;
+      // rate.innerText = `1 ${currencyOne} = ${moneyRate} ${currencyTwo}`;
+      amountEl_one.value = (amountEl_two.value * price).toFixed(2);
       amountEl_two.value = (amountEl_one.value * moneyRate).toFixed(2);
     })
+    // calling this allows the rate element work
     fetchCrypto();
 }
 
@@ -43,8 +44,6 @@ function fetchCrypto() {
     .then((res) => {
       var data = JSON.parse(res.target.response);
       console.log('data.data: ', data.data);
-      // const btc = data.data[0].quote.USD.price;
-      // const eth = data.data[1].quote.USD.price;
       const currencyOne = currencyEl_one.value;
       const currencyTwo = currencyEl_two.value;
       for (var i = 0; i < data.data.length; i++) {
@@ -56,8 +55,7 @@ function fetchCrypto() {
         if (currencyTwo === symbol) {
           rate.innerText = `1 ${currencyTwo} = ${price} ${currencyOne}`;
           amountEl_one.value = (amountEl_two.value * price).toFixed(2);
-        } else {
-          
+          amountEl_two.value = (amountEl_one.value * moneyRate).toFixed(2);
         }
       }
     }).catch((err) => err);

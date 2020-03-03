@@ -88,9 +88,10 @@ p {
 }
 
 .swap-rate-container {
-  align-items: center;
+  /* align-items: center; */
   display: flex;
-  justify-content: space-between;
+  margin-left: 100px;
+  /* justify-content: space-between; */
 }
 
 .select:focus,
