@@ -25,14 +25,14 @@ function calculate() {
     .then(res => res.json())
     .then(data => {
       console.log('fiat data: ' + JSON.stringify(data));
-      const moneyRate = data.rates[currencyOne];
+      const moneyRate = data.rates;
       console.log('fiat moneyRate: ', moneyRate);
       // rate.innerText = `1 ${currencyOne} = ${moneyRate} ${currencyTwo}`;
-      amountEl_one.value = (amountEl_two.value * price).toFixed(2);
+      amountEl_one.value = (amountEl_two.value * moneyRate).toFixed(2);
       amountEl_two.value = (amountEl_one.value * moneyRate).toFixed(2);
     })
     // calling this allows the rate element work
-    fetchCrypto();
+    // fetchCrypto();
 }
 
 // fetch cryptocurrency rates
@@ -71,5 +71,5 @@ function fetchCrypto() {
 }
 
 calculate();
-fetchCrypto();
+// fetchCrypto();
 
