@@ -4,18 +4,11 @@ const amountEl_one = document.getElementById('amount-one');
 const currencyEl_two = document.getElementById('currency-two');
 const amountEl_two = document.getElementById('amount-two');
 const rate = document.getElementById('rate');
-const swap = document.getElementById('swap');
 
 currencyEl_one.addEventListener('change', calculate);
 amountEl_one.addEventListener('input', calculate);
 currencyEl_two.addEventListener('change', calculate);
 amountEl_two.addEventListener('input', calculate);
-// swap.addEventListener('click', () => {
-//   const temp = currencyEl_one.value;
-//   currencyEl_one.value = currencyEl_two.value;
-//   currencyEl_two.value = temp;
-//   calculate();
-// });
 
 // fetch exchange rates and update DOM
 function calculate() {
@@ -24,19 +17,23 @@ function calculate() {
   fetch(`https://api.exchangerate-api.com/v4/latest/${currencyOne}`)
     .then(res => res.json())
     .then(data => {
-      console.log('fiat data: ' + JSON.stringify(data));
-      const moneyRate = data.rates;
-      console.log('fiat moneyRate: ', moneyRate);
-      // rate.innerText = `1 ${currencyOne} = ${moneyRate} ${currencyTwo}`;
-      amountEl_one.value = (amountEl_two.value * moneyRate).toFixed(2);
-      amountEl_two.value = (amountEl_one.value * moneyRate).toFixed(2);
+      // console.log('fiat data.rates: ', data.rates);
+      for (const [key, value] of Object.entries(data.rates)) {
+        // console.log(`key: ${key}, value: ${value}`);
+        if (currencyOne === key) {
+          rate.innerText = `1 ${currencyTwo} = ${value} ${currencyOne}`;
+          amountEl_one.value = (amountEl_two.value * value).toFixed(2);
+          amountEl_two.value = (amountEl_one.value * value).toFixed(2);
+        }
+      }
     })
     // calling this allows the rate element work
-    // fetchCrypto();
+    fetchCMC();
+    fetchCryptoCompare()
 }
 
 // fetch cryptocurrency rates
-function fetchCrypto() {
+function fetchCMC() {
   var apiKey = {
     key: '3e63059f-2e72-4fcb-ac0d-1663f970caaf'
   }
@@ -49,9 +46,9 @@ function fetchCrypto() {
       for (var i = 0; i < data.data.length; i++) {
         const price = data.data[i].quote.USD.price;
         const symbol = data.data[i].symbol;
-        console.log('crypto price[i]: ', price);
-        console.log('crypto symbol: ', symbol);
-        console.log('');
+        // console.log('crypto price[i]: ', price);
+        // console.log('crypto symbol: ', symbol);
+        // console.log('');
         if (currencyTwo === symbol) {
           rate.innerText = `1 ${currencyTwo} = ${price} ${currencyOne}`;
           amountEl_one.value = (amountEl_two.value * price).toFixed(2);
@@ -70,6 +67,22 @@ function fetchCrypto() {
   }
 }
 
-calculate();
-// fetchCrypto();
+// get MT
+function fetchCryptoCompare() {
+  const currencyOne = currencyEl_one.value;
+  const currencyTwo = currencyEl_two.value;
+  fetch('https://min-api.cryptocompare.com/data/pricemulti?fsyms=MT&tsyms=USD,EUR')
+    .then(res => res.json())
+    .then(data => {
+      console.log('crypto compare', data.MT.USD);
+      const mt = data.MT.USD;
+      if (currencyTwo === 'MT') {
+        rate.innerText = `1 ${currencyTwo} = ${mt} ${currencyOne}`;
+        amountEl_one.value = (amountEl_two.value * mt).toFixed(2);
+        amountEl_two.value = (amountEl_one.value * mt).toFixed(2);
+      }
+    }
+  )
+}
 
+calculate();
