@@ -35,7 +35,7 @@ function calculate(num) {
       }
     })
     console.log("currencyTwo", currencyEl_two.value);
-    if(currencyEl_two.value == "MT"){
+    if (currencyEl_two.value == "MT"){
       fetchMT(num);
     } else {
       fetchCMC(num);
