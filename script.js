@@ -48,7 +48,7 @@ function fetchCMC(num) {
   var apiKey = {
     key: '3e63059f-2e72-4fcb-ac0d-1663f970caaf'
   }
-  request('GET', 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=' + apiKey.key)
+  request('GET', 'http://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=' + apiKey.key)
     .then((res) => {
       var data = JSON.parse(res.target.response);
       // console.log('data.data: ', data.data);
