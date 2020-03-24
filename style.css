@@ -101,7 +101,19 @@ p {
 }
 
 @media (max-width: 600px) {
+  #amount-one, #amount-two {
+    font-size: 20px;
+  }
+
   .currency input {
     width: 180px;
+  }
+
+  h1 {
+    font-size: 25px;
+  }
+
+  .rate {
+    font-size: 15px;
   }
 }

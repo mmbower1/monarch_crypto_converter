@@ -12,6 +12,8 @@ amountEl_two.addEventListener('input', () => calculate("two"));
 
 let currentRate = 0;
 
+calculate();
+
 // fetch exchange rates and update DOM
 function calculate(num) {
   const currencyOne = currencyEl_one.value;
@@ -35,11 +37,9 @@ function calculate(num) {
     console.log("currencyTwo", currencyEl_two.value);
     if(currencyEl_two.value == "MT"){
       fetchMT(num);
-    }else {
+    } else {
       fetchCMC(num);
     }
-    
-    
 }
 
 // fetch cryptocurrency rates
@@ -59,14 +59,12 @@ function fetchCMC(num) {
         const symbol = data.data[i].symbol;
 
         if (currencyTwo === symbol) {
-        console.log(" ");
-        console.log(" ");
-        console.log(" ");
-        console.log("PRICE in LOCAL CURRENCY: ", price);
-        console.log("Current Rate: ", currentRate);
-        console.log(" ");
-        console.log(" ");
-        console.log(" ");
+          console.log(" ");
+          console.log(" ");
+          console.log("PRICE in LOCAL CURRENCY: ", price);
+          console.log("Current Rate: ", currentRate);
+          console.log(" ");
+          console.log(" ");
           rate.innerText = `1 ${currencyTwo} = ${price} ${currencyOne}`;
           if (num == "one") {
             amountEl_two.value = (amountEl_one.value / price).toFixed(8);
@@ -96,20 +94,16 @@ function fetchMT(num) {
     .then(data => {
       console.log('crypto compare', data.MT.USD);
       const mt = data.MT.USD;
-        rate.innerText = `1 ${currencyTwo} = ${mt} ${currencyOne}`;
-        console.log("Changing input boxes...");
-        console.log("Box one to: ", (amountEl_two.value * mt).toFixed(8));
-        console.log("Box two to: ", (amountEl_one.value / mt).toFixed(8));
-        if (num == "one") {
-          amountEl_two.value = (amountEl_one.value / mt).toFixed(8);
-        }else {
-          amountEl_one.value = (amountEl_two.value * mt).toFixed(8);
-        }
-        
-        
+      rate.innerText = `1 ${currencyTwo} = ${mt} ${currencyOne}`;
+      console.log("Changing input boxes...");
+      console.log("Box one to: ", (amountEl_two.value * mt).toFixed(8));
+      console.log("Box two to: ", (amountEl_one.value / mt).toFixed(8));
+      if (num == "one") {
+        amountEl_two.value = (amountEl_one.value / mt).toFixed(8);
+      } else {
+        amountEl_one.value = (amountEl_two.value * mt).toFixed(8);
+      }
       return mt;
     }
   )
 }
-
-calculate();
