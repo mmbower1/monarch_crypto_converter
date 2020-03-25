@@ -24,22 +24,21 @@ function calculate(num) {
     .then(data => {
       //console.log('fiat data: ', data.conversion_rates);
       for (const [key, value] of Object.entries(data.conversion_rates)) {
-        //console.log(`key: ${key}, value: ${value}`);
         if ("USD" === key) {
-          console.log("MATCH")
-          console.log(`key: ${key}, value: ${value}`);
+          //console.log(`key: ${key}, value: ${value}`);
           currentRate = value;
-          console.log("Current rate is",currentRate)
+          console.log("Current rate is: ", currentRate)
           //rate.innerText = `1 ${currencyTwo} = ${value} ${currencyOne}`;
         }
       }
+      console.log("Calling on either fetchMT or fetchCMC");
+      if (currencyEl_two.value == "MT") {
+        fetchMT(num);
+      } else {
+        fetchCMC(num);
+      }
     })
-    console.log("currencyTwo", currencyEl_two.value);
-    if (currencyEl_two.value == "MT"){
-      fetchMT(num);
-    } else {
-      fetchCMC(num);
-    }
+    
 }
 
 // fetch cryptocurrency rates
@@ -55,25 +54,22 @@ function fetchCMC(num) {
       const currencyOne = currencyEl_one.value;
       const currencyTwo = currencyEl_two.value;
       for (var i = 0; i < data.data.length; i++) {
-        let price = data.data[i].quote.USD.price * currentRate;
         const symbol = data.data[i].symbol;
-
         if (currencyTwo === symbol) {
-          console.log(" ");
-          console.log(" ");
-          console.log("PRICE in LOCAL CURRENCY: ", price);
-          console.log("Current Rate: ", currentRate);
-          console.log(" ");
-          console.log(" ");
-          rate.innerText = `1 ${currencyTwo} = ${price} ${currencyOne}`;
+          let dollarPrice = data.data[i].quote.USD.price;
+          let convertedPrice = (dollarPrice / parseFloat(currentRate));
+          let price = dollarPrice * currentRate;
+          let formattedConvertedPrice = numberWithCommas(convertedPrice);
+          rate.innerText = `1 ${currencyTwo} = ${formattedConvertedPrice} ${currencyOne}`;
           if (num == "one") {
-            amountEl_two.value = (amountEl_one.value / price).toFixed(8);
+            amountEl_two.value = (amountEl_one.value / convertedPrice).toFixed(8);
           } else {
-            amountEl_one.value = (amountEl_two.value * price).toFixed(2);
+            amountEl_one.value = (amountEl_two.value * convertedPrice).toFixed(2);
           }
         }
       }
     }).catch((err) => err);
+
   function request(method, url) {
     return new Promise((resolve, reject) => {
       var xhr = new XMLHttpRequest();
@@ -92,12 +88,8 @@ function fetchMT(num) {
   fetch('https://min-api.cryptocompare.com/data/pricemulti?fsyms=MT&tsyms=USD,EUR')
     .then(res => res.json())
     .then(data => {
-      console.log('crypto compare', data.MT.USD);
       const mt = data.MT.USD;
       rate.innerText = `1 ${currencyTwo} = ${mt} ${currencyOne}`;
-      console.log("Changing input boxes...");
-      console.log("Box one to: ", (amountEl_two.value * mt).toFixed(8));
-      console.log("Box two to: ", (amountEl_one.value / mt).toFixed(8));
       if (num == "one") {
         amountEl_two.value = (amountEl_one.value / mt).toFixed(8);
       } else {
