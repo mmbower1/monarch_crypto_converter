@@ -18,7 +18,6 @@ calculate();
 function calculate(num) {
   const currencyOne = currencyEl_one.value;
   const currencyTwo = currencyEl_two.value;
-  // fetch(`https://api.exchangerate-api.com/v4/latest/${currencyOne}`)
   fetch(`https://prime.exchangerate-api.com/v5/dad7a42d087d1d8dfe8197e2/latest/${currencyOne}`)
     .then(res => res.json())
     .then(data => {
@@ -101,6 +100,8 @@ function fetchMT(num) {
 }
 
 // commas for large numbers
-function numberWithCommas(num) {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+function numberWithCommas(x) {
+  var parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
 }
