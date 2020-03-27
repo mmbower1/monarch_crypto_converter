@@ -113,6 +113,10 @@ p {
     font-size: 25px;
   }
 
+  .money-img {
+    width: 300px;
+  }
+
   .rate {
     font-size: 15px;
   }

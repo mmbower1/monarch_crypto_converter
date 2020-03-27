@@ -92,7 +92,7 @@ function fetchMT(num) {
       if (num == "one") {
         amountEl_two.value = (amountEl_one.value / mt).toFixed(8);
       } else {
-        amountEl_one.value = (amountEl_two.value * mt).toFixed(8);
+        amountEl_one.value = ((amountEl_two.value * mt) * 1.68).toFixed(8);
       }
       return mt;
     }
