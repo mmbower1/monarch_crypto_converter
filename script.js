@@ -5,6 +5,8 @@ const currencyEl_two = document.getElementById('currency-two');
 const amountEl_two = document.getElementById('amount-two');
 const rate = document.getElementById('rate');
 
+const marquee = document.getElementById('marquee');
+
 currencyEl_one.addEventListener('change', calculate);
 amountEl_one.addEventListener('input', () => calculate("one"));
 currencyEl_two.addEventListener('change', calculate);
@@ -21,7 +23,7 @@ function calculate(num) {
   fetch(`https://prime.exchangerate-api.com/v5/dad7a42d087d1d8dfe8197e2/latest/${currencyOne}`)
     .then(res => res.json())
     .then(data => {
-      //console.log('fiat data: ', data.conversion_rates);
+      console.log('fiat data: ', data);
       for (const [key, value] of Object.entries(data.conversion_rates)) {
         if ("USD" === key) {
           //console.log(`key: ${key}, value: ${value}`);
@@ -29,8 +31,8 @@ function calculate(num) {
           console.log("Current rate is: ", currentRate)
           //rate.innerText = `1 ${currencyTwo} = ${value} ${currencyOne}`;
         }
-      }
-      console.log("Calling on either fetchMT or fetchCMC");
+        marquee.innerText = `Coin Market Cap Prices: {${JSON.stringify(data.conversion_rates)}}`
+      }      
       if (currencyEl_two.value == "MT") {
         fetchMT(num);
       } else {
@@ -48,8 +50,9 @@ function fetchCMC(num) {
   }
   request('GET', 'https://cors-anywhere.herokuapp.com/https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=' + apiKey.key)
     .then((res) => {
+      // console.log('res: ', res);
       var data = JSON.parse(res.target.response);
-      // console.log('data.data: ', data.data);
+      console.log('data.data: ', data.data);
       const currencyOne = currencyEl_one.value;
       const currencyTwo = currencyEl_two.value;
       for (var i = 0; i < data.data.length; i++) {

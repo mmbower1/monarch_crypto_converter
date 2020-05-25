@@ -71,6 +71,12 @@ h1 {
   color: var(--primary-color);
 }
 
+marquee {
+  color: white;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
 .money-img {
   margin-bottom: 30px;
   width: 350px;
