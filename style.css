@@ -72,6 +72,13 @@ body {
   justify-content: left;
 }
 
+.explanation {
+  box-shadow: 2px 2px 4px #000000;
+  line-height: 1.3;
+  padding: 10px;
+  width: 420px;
+}
+
 h1 {
   color: var(--primary-color);
 }
@@ -109,6 +116,12 @@ p {
 .input:focus,
 .button-focus {
   outline: 0;
+}
+
+.writing {
+  color: #fff;
+  line-height: 1.2;
+  text-align: center;
 }
 
 @media (max-width: 600px) {
