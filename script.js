@@ -1,11 +1,21 @@
+// currency data
 const currencyEl_one = document.getElementById('currency-one');
 const amountEl_one = document.getElementById('amount-one');
-
 const currencyEl_two = document.getElementById('currency-two');
 const amountEl_two = document.getElementById('amount-two');
 const rate = document.getElementById('rate');
-
 const marquee = document.getElementById('marquee');
+
+// clock data
+const hour = document.querySelector('.hour');
+const minute = document.querySelector('.minute');
+const second = document.querySelector('.second');
+const time = document.querySelector('.time');
+const date = document.querySelector('.date');
+const toggle = document.querySelector('.toggle');
+const ampm = hour <= 12 ? 'AM' : 'PM';
+const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 currencyEl_one.addEventListener('change', calculate);
 amountEl_one.addEventListener('input', () => calculate("one"));
@@ -102,9 +112,38 @@ function fetchMT(num) {
   )
 }
 
+// clock functionality
+function setTime() {
+  const currentTime = new Date();
+  const currentDate = currentTime.getDate();
+  const month = currentTime.getMonth();
+  const day = currentTime.getDay();
+  const hours = currentTime.getHours();
+  const hoursForClock = hours % 12;
+  const minutes = currentTime.getMinutes();
+  const seconds = currentTime.getSeconds();
+
+  hour.style.transform = 
+    `translate(-50%, -100%) rotate(${scale(hoursForClock, 0, 11, 0, 360)}deg)`;
+  minute.style.transform = 
+    `translate(-50%, -100%) rotate(${scale(minutes, 0, 59, 0, 360)}deg)`;
+  second.style.transform = 
+    `translate(-50%, -100%) rotate(${scale(seconds, 0, 59, 0, 360)}deg)`;
+
+  time.innerHTML = `${hoursForClock}: ${minutes < 10 ? `0${minutes}` : minutes} ${ampm}`;
+  date.innerHTML = `${days[day]}, ${months[month]} <span class="circle">${currentDate}</span>`;
+}
+// clock scale func from stack overflow
+const scale = (num, in_min, in_max, out_min, out_max) => {
+  return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
 // commas for large numbers
 function numberWithCommas(x) {
   var parts = x.toString().split(".");
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return parts.join(".");
 }
+
+setTime();
+setInterval(setTime, 1000);

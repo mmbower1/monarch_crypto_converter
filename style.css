@@ -23,7 +23,7 @@ body {
   display: flex;
   flex-direction: column;
   font-family: 'Questrial', sans-serif;
-  height: 100vh;
+  height: 100%;
   justify-content: center;
   margin: 0;
   padding: 20px;
@@ -36,6 +36,68 @@ body {
   cursor: pointer;
   font-size: 12px;
   padding: 5px 12px;
+}
+
+.center-point {
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  height: 10px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+}
+
+.center-point::after {
+  background-color: #000;
+  border-radius: 50%;
+  content: '';
+  height: 5px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 5px;
+}
+
+.clock {
+  position: relative;
+  height: 200px;
+  width: 200px;
+}
+
+.clock-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.container {
+  margin-bottom: 100px;
+}
+
+.date {
+  color: #aaa;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.date .circle {
+  align-items: center;
+  background-color: #000;
+  border-radius: 50%;
+  color: #fff;
+  display: inline-flex;
+  font-size: 12px;
+  height: 18px;
+  justify-content: center;
+  line-height: 18px;
+  transition: all 0.5s ease-in;
+  width: 18px;
 }
 
 .currency {
@@ -81,6 +143,7 @@ body {
 
 h1 {
   color: var(--primary-color);
+  margin: -20px 0;
 }
 
 marquee {
@@ -92,6 +155,35 @@ marquee {
 .money-img {
   margin-bottom: 30px;
   width: 350px;
+}
+
+.needle {
+  background-color: var(--primary-color);
+  left: 50%;
+  height: 65px;
+  position: absolute;
+  top: 50%;
+  transform-origin: bottom center;
+  transition: all 0.5s ease-in;
+  width: 3px;
+}
+
+.needle.hour {
+  height: 40px;
+  transform: translate(-50%, -100%) rotate(0deg);
+}
+.needle.minute {
+  height: 80px;
+  transform: translate(-50%, -100%) rotate(0deg);
+}
+.needle.second {
+  background-color: orangered;
+  height: 70px;
+  transform: translate(-50%, -100%) rotate(0deg);
+}
+
+.time {
+  font-size: 26px;
 }
 
 p {
